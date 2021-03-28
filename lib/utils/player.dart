@@ -1,9 +1,9 @@
-import 'package:flame/anchor.dart';
 import 'package:flame/animation.dart' as ani;
 import 'package:flame/components/animation_component.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame/time.dart';
 import 'package:flutter/cupertino.dart';
+
 import 'package:ninja/utils/constants.dart';
 
 class Player extends AnimationComponent {
@@ -13,6 +13,8 @@ class Player extends AnimationComponent {
   double yMax = 0.0;
   Size _size;
   bool _isHit;
+  Timer timer;
+  ValueNotifier<int> heart;
   Player() : super.empty() {
     //idle
     List<Sprite> idle = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
@@ -28,19 +30,23 @@ class Player extends AnimationComponent {
         [2, 3, 4, 5, 6, 7, 8].map((e) => Sprite('Jump ($e).png')).toList();
     _jumpAnimation = ani.Animation.spriteList(jump, stepTime: 0.8);
     //hit
-    List<Sprite> hit = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    List<Sprite> hit = [3]
         .map((e) => Sprite('Hurt ($e).png'))
         .toList();
-    _hitAnimation = ani.Animation.spriteList(hit, stepTime: 0.5);
+    _hitAnimation = ani.Animation.spriteList(hit, stepTime: 0.1);
     this.animation = _runAnimation;
+    heart = ValueNotifier(1);
     _size = Size(0, 0);
     _isHit = false;
+    timer = Timer(2, callback: () {
+      running();
+    });
   }
   @override
   void resize(Size size) {
     super.resize(size);
     this._size = size;
-    this.height = this.width = size.width / 10;
+    this.height = this.width = size.width / 12;
     this.x = this.width + 10;
     this.y = size.height - groundHeight - this.height + bottomSpacing;
     this.yMax = this.y;
@@ -57,6 +63,7 @@ class Player extends AnimationComponent {
       this.speedY = 0;
       running();
     }
+    timer.update(t);
   }
 
   bool isOnGround() {
@@ -66,6 +73,8 @@ class Player extends AnimationComponent {
   void hit() {
     if (!_isHit) {
       this.animation = _hitAnimation;
+      heart.value -= 1;
+      timer.start();
       _isHit = true;
     }
   }

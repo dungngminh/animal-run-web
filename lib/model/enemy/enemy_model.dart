@@ -5,9 +5,9 @@ class EnemyModel {
   final int nColumns;
   final int nRows;
   final double timeSet;
-  //final bool canFly;
+  final bool canFly;
   final double speed;
 
   const EnemyModel(this.imgSrc, this.textureWidth, this.textureHeight,
-      this.nColumns, this.nRows, this.timeSet, this.speed);
+      this.nColumns, this.nRows, this.timeSet, this.speed, this.canFly);
 }

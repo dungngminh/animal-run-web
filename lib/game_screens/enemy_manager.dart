@@ -41,7 +41,7 @@ class EnemyManager extends Component with HasGameRef<AnimalRun> {
   void update(double t) {
     _timer.update(t);
 
-    var newSpawnLevel = (gameRef.score / 500).toInt();
+    var newSpawnLevel = (gameRef.score ~/ 500);
     if (_spawnLevel < newSpawnLevel) {
       _spawnLevel = newSpawnLevel;
 
@@ -57,5 +57,12 @@ class EnemyManager extends Component with HasGameRef<AnimalRun> {
       );
       _timer.start();
     }
+  }
+
+  void reset() {
+    _spawnLevel = 0;
+    _timer = Timer(4, repeat: true, callback: () {
+      randomEnemy();
+    });
   }
 }
