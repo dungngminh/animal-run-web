@@ -161,7 +161,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
               height: _size.height * 0.8 / 2,
             ),
             Text(
-              'Pause',
+              'Resume',
               style: TextStyle(
                 fontFamily: 'Arcade',
                 fontSize: 30,
@@ -230,6 +230,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
               onPressed: () {
                 replay();
                 resumeGame();
+                removeWidgetOverlay('HubPause');
                 removeWidgetOverlay('GameOverHub');
               },
             ),
