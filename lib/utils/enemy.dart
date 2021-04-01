@@ -43,18 +43,18 @@ class Enemy extends AnimationComponent {
   @override
   void resize(Size size) {
     super.resize(size);
-    double scaleFactor = (size.width / 11) / _enemyData.textureWidth;
+    double scaleFactor = (size.width / 10) / _enemyData.textureWidth;
     this.height = _enemyData.textureHeight * scaleFactor;
     this.width = _enemyData.textureWidth * scaleFactor;
     this.x = size.width + this.width;
     this.y = size.height - groundHeight - (this.height / 2) + 2;
 
-    if (_enemyData.canFly && _random.nextBool()) {
-      if (_enemyData.imgSrc == 'Bat (46x30).png')
-        this.y -= this.height * 2;
-      else
-        this.y -= this.height * 1.7;
-    }
+    // if (_enemyData.canFly && _random.nextBool()) {
+    //   if (_enemyData.imgSrc == 'Bat (46x30).png')
+    //     this.y -= this.height * 2;
+    //   else
+    //     this.y -= this.height * 1.7;
+    // }
   }
 
   @override
