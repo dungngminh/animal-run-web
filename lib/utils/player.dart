@@ -44,7 +44,7 @@ class Player extends AnimationComponent {
   void resize(Size size) {
     super.resize(size);
     this._size = size;
-    this.width = size.width / 15;
+    this.width = size.width / 12;
     this.height = size.width / 12;
     this.x = this.width + 10;
     this.y = size.height - groundHeight - this.height + bottomSpacing;

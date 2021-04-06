@@ -89,7 +89,8 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
 
     components.whereType<Enemy>().forEach((element) {
       print(_player.distance(element));
-      if (_player.distance(element) < 95) {
+      if (_player.distance(element) < 135) {
+        // ignore: todo
         _player.hit(); //TODO fix lai distance giua cac element
       }
     });
@@ -131,6 +132,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
           ValueListenableBuilder(
             valueListenable: _player.heart,
             builder: (BuildContext context, value, Widget child) {
+              // ignore: deprecated_member_use
               final life = List<Widget>();
               for (int i = 1; i <= value; ++i) {
                 life.add(
@@ -245,6 +247,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   void replay() {
     this.score = 0;
+    this.isGameOver = false;
     _player.heart.value = 1;
     _enemyManager.reset();
 
