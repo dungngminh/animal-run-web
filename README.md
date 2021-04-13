@@ -1,6 +1,6 @@
-# ninja
+# Animal Run for Web 16:9
 
-A new Flutter project.
+Simple Game using Flame x Flutter
 
 ## Getting Started
 
