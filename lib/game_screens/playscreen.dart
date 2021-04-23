@@ -26,7 +26,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
   int score;
   Size _size;
   EnemyManager _enemyManager;
-
+  bool isGameOver;
   AnimalRun() {
     //init constructor
     _parallaxComponent = ParallaxComponent(
@@ -53,7 +53,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
         color: Colors.white,
       ),
     );
-
+    isGameOver = false;
     //Hub pause
     addWidgetOverlay('Pause', _buildUI());
     //add to screen
@@ -88,8 +88,10 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
     _scoreText.text = score.toString();
 
     components.whereType<Enemy>().forEach((element) {
-      if (_player.distance(element) < 45) {
-        _player.hit();
+      print(_player.distance(element));
+      if (_player.distance(element) < 135) {
+        // ignore: todo
+        _player.hit(); //TODO fix lai distance giua cac element
       }
     });
     if (_player.heart.value <= 0) gameOver();
@@ -124,20 +126,22 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
               color: Colors.white,
             ),
             onPressed: () {
-              pauseGame();
+              if (isGameOver == false) pauseGame();
             },
           ),
           ValueListenableBuilder(
             valueListenable: _player.heart,
             builder: (BuildContext context, value, Widget child) {
+              // ignore: deprecated_member_use
               final life = List<Widget>();
-              int i = 1;
-              life.add(
-                Icon(
-                  (value >= i) ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.red,
-                ),
-              );
+              for (int i = 1; i <= value; ++i) {
+                life.add(
+                  Icon(
+                    (value >= i) ? Icons.favorite : Icons.favorite_border,
+                    color: Colors.red,
+                  ),
+                );
+              }
               return Row(children: life);
             },
           ),
@@ -161,7 +165,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
               height: _size.height * 0.8 / 2,
             ),
             Text(
-              'Pause',
+              'Resume',
               style: TextStyle(
                 fontFamily: 'Arcade',
                 fontSize: 30,
@@ -192,6 +196,8 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   void gameOver() {
     pauseEngine();
+    isGameOver = true;
+    removeWidgetOverlay("HubPause");
     addWidgetOverlay('GameOverHub', _gameOverHub());
   }
 
@@ -241,6 +247,7 @@ class AnimalRun extends BaseGame with TapDetector, HasWidgetsOverlay {
 
   void replay() {
     this.score = 0;
+    this.isGameOver = false;
     _player.heart.value = 1;
     _enemyManager.reset();
 

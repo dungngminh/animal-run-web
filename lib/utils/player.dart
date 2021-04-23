@@ -30,9 +30,7 @@ class Player extends AnimationComponent {
         [2, 3, 4, 5, 6, 7, 8].map((e) => Sprite('Jump ($e).png')).toList();
     _jumpAnimation = ani.Animation.spriteList(jump, stepTime: 0.8);
     //hit
-    List<Sprite> hit = [3]
-        .map((e) => Sprite('Hurt ($e).png'))
-        .toList();
+    List<Sprite> hit = [3].map((e) => Sprite('Hurt ($e).png')).toList();
     _hitAnimation = ani.Animation.spriteList(hit, stepTime: 0.1);
     this.animation = _runAnimation;
     heart = ValueNotifier(1);
@@ -46,7 +44,8 @@ class Player extends AnimationComponent {
   void resize(Size size) {
     super.resize(size);
     this._size = size;
-    this.height = this.width = size.width / 12;
+    this.width = size.width / 12;
+    this.height = size.width / 12;
     this.x = this.width + 10;
     this.y = size.height - groundHeight - this.height + bottomSpacing;
     this.yMax = this.y;
@@ -87,7 +86,7 @@ class Player extends AnimationComponent {
   void jump() {
     if (isOnGround()) {
       this.animation = _jumpAnimation;
-      this.speedY = -_size.height;
+      this.speedY = -_size.height * 0.8;
     }
   }
 }
